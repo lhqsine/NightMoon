@@ -1,0 +1,157 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="12.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\Core\NMGameObjectManager.h" />
+    <ClInclude Include="..\Core\NMApplication.h" />
+    <ClInclude Include="..\Core\NMArchive.h" />
+    <ClInclude Include="..\Core\NMBufferObject.h" />
+    <ClInclude Include="..\Core\NMComponent.h" />
+    <ClInclude Include="..\Core\NMDefines.h" />
+    <ClInclude Include="..\Core\NMEnums.h" />
+    <ClInclude Include="..\Core\NMFormat.h" />
+    <ClInclude Include="..\Core\NMGameObject.h" />
+    <ClInclude Include="..\Core\NMGameSetting.h" />
+    <ClInclude Include="..\Core\NMInputHandler.h" />
+    <ClInclude Include="..\Core\NMMathLib.h" />
+    <ClInclude Include="..\Core\NMMatrix4x4.h" />
+    <ClInclude Include="..\Core\NMMemConfig.h" />
+    <ClInclude Include="..\Core\NMMemJEMAlloc.h" />
+    <ClInclude Include="..\Core\NMMemObjAlloc.h" />
+    <ClInclude Include="..\Core\NMMemSTLAlloc.h" />
+    <ClInclude Include="..\Core\NMMemTracker.h" />
+    <ClInclude Include="..\Core\NMModule.h" />
+    <ClInclude Include="..\Core\NMObject.h" />
+    <ClInclude Include="..\Core\NMPlatform.h" />
+    <ClInclude Include="..\Core\NMPredeclare.h" />
+    <ClInclude Include="..\Core\NMQuaternion.h" />
+    <ClInclude Include="..\Core\NMRenderSystem.h" />
+    <ClInclude Include="..\Core\NMRoot.h" />
+    <ClInclude Include="..\Core\NMStringUtils.h" />
+    <ClInclude Include="..\Core\NMTextureObject.h" />
+    <ClInclude Include="..\Core\NMTransform.h" />
+    <ClInclude Include="..\Core\NMTypes.h" />
+    <ClInclude Include="..\Core\NMUtils.h" />
+    <ClInclude Include="..\Core\NMVector2.h" />
+    <ClInclude Include="..\Core\NMVector3.h" />
+    <ClInclude Include="..\Core\NMVector4.h" />
+    <ClInclude Include="..\Core\NMWindow.h" />
+    <ClInclude Include="..\Core\NMWindowDesc.h" />
+    <ClInclude Include="..\Core\Windows\NMLaunchWindows.h" />
+    <ClInclude Include="..\Core\Windows\NMWindowsApplication.h" />
+    <ClInclude Include="..\Core\Windows\NMWindowsPlatform.h" />
+    <ClInclude Include="..\Core\Windows\NMWindowsWindow.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\Core\NMGameObjectManager.cpp" />
+    <ClCompile Include="..\Core\NMApplication.cpp" />
+    <ClCompile Include="..\Core\NMArchive.cpp" />
+    <ClCompile Include="..\Core\NMBufferObject.cpp" />
+    <ClCompile Include="..\Core\NMComponent.cpp" />
+    <ClCompile Include="..\Core\NMGameObject.cpp" />
+    <ClCompile Include="..\Core\NMMathLib.cpp" />
+    <ClCompile Include="..\Core\NMMatrix4x4.cpp" />
+    <ClCompile Include="..\Core\NMMemJEMAlloc.cpp" />
+    <ClCompile Include="..\Core\NMMemTracker.cpp" />
+    <ClCompile Include="..\Core\NMObject.cpp" />
+    <ClCompile Include="..\Core\NMQuaternion.cpp" />
+    <ClCompile Include="..\Core\NMRoot.cpp" />
+    <ClCompile Include="..\Core\NMTextureObject.cpp" />
+    <ClCompile Include="..\Core\NMTransform.cpp" />
+    <ClCompile Include="..\Core\NMVector2.cpp" />
+    <ClCompile Include="..\Core\NMVector3.cpp" />
+    <ClCompile Include="..\Core\NMVector4.cpp" />
+    <ClCompile Include="..\Core\NMWindow.cpp" />
+    <ClCompile Include="..\Core\Windows\NMLaunchWindows.cpp" />
+    <ClCompile Include="..\Core\Windows\NMWindowsApplication.cpp" />
+    <ClCompile Include="..\Core\Windows\NMWindowsPlatform.cpp" />
+    <ClCompile Include="..\Core\Windows\NMWindowsWindow.cpp" />
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{1DE7E575-86AB-4BBF-8C98-3015FE0DB217}</ProjectGuid>
+    <RootNamespace>NightMoon</RootNamespace>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v120</PlatformToolset>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v120</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <LibraryPath>$(SolutionDir)/Extern/boost/lib;$(LibraryPath)</LibraryPath>
+    <ReferencePath>$(ReferencePath)</ReferencePath>
+    <IncludePath>$(SolutionDir);$(IncludePath)</IncludePath>
+    <OutDir>$(SolutionDir)$(Configuration)\</OutDir>
+    <IntDir>$(Configuration)\</IntDir>
+    <ExecutablePath>$(OutDir)/bin;$(ExecutablePath)</ExecutablePath>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>NM_DEBUG;NM_WINDOWS_32;NM_SSE;NM_MEM_TRACKER;NM_STL_USE_ALLOC;NM_RESTRICT_ALIASING;JEMALLOC_STATIC_BUILD;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <GenerateXMLDocumentationFiles>false</GenerateXMLDocumentationFiles>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <MinimalRebuild>false</MinimalRebuild>
+      <AdditionalIncludeDirectories>$(SolutionDir)\Core\;$(SolutionDir)\Core\Windows\;$(SolutionDir)\Extern\boost\include\;$(SolutionDir)\Extern\jemalloc\jemalloc\include\;$(SolutionDir)\Extern\jemalloc\jemalloc\include\msvc_compat\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Link>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalLibraryDirectories>$(OutDir);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>jemallocd.lib;libboost_serialization-vc120-mt-gd-1_57.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <OutputFile>$(OutDir)$(TargetName)$(TargetExt)</OutputFile>
+      <ProfileGuidedDatabase>$(OutDir)/$(TargetName).pgd</ProfileGuidedDatabase>
+      <ProgramDatabaseFile>$(OutDir)/$(TargetName).pdb</ProgramDatabaseFile>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <SDLCheck>true</SDLCheck>
+      <AdditionalIncludeDirectories>$(SolutionDir)\Core\Windows\;$(SolutionDir)\Core\;$(SolutionDir)\Extern\jemalloc\jemalloc\include\msvc_compat;$(SolutionDir)\Extern\jemalloc\jemalloc\include\;$(SolutionDir)\Extern\boost\include\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>NM_RELEASE;NM_WINDOWS_32;NM_SSE;NM_STL_USE_ALLOC;NM_RESTRICT_ALIASING;JEMALLOC_STATIC_BUILD;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ClCompile>
+    <Link>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <AdditionalDependencies>jemalloc.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(OutDir);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+    </Link>
+  </ItemDefinitionGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>
