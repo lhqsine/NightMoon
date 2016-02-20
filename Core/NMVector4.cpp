@@ -214,11 +214,7 @@ namespace NightMoon
     //-----------------------------------------------------------------
     NMVector4& NMVector4::operator= (const NMVector4 &rhs)
     {
-        this->x = rhs.x;
-        this->y = rhs.y;
-        this->z = rhs.z;
-        this->w = rhs.w;
-
+        std::memcpy(this->data, rhs.data, sizeof(Float) * 4);
         return (*this);
     }
     //-----------------------------------------------------------------
@@ -232,20 +228,14 @@ namespace NightMoon
         return (*this);
     }
     //-----------------------------------------------------------------
-    Bool NMVector4::operator == (const NMVector4 &rhs)
+    Bool NMVector4::operator == (const NMVector4 &rhs) const
     {
-        return (this->x == rhs.x &&
-            this->y == rhs.y &&
-            this->z == rhs.z &&
-            this->w == rhs.w);
+        return (this->x == rhs.x && this->y == rhs.y && this->z == rhs.z && this->w == rhs.w);
     }
     //-----------------------------------------------------------------
-    Bool NMVector4::operator != (const NMVector4 &rhs)
+    Bool NMVector4::operator != (const NMVector4 &rhs) const
     {
-        return (this->x != rhs.x ||
-            this->y != rhs.y ||
-            this->z != rhs.z ||
-            this->w != rhs.w);
+        return (this->x != rhs.x || this->y != rhs.y || this->z != rhs.z || this->w != rhs.w);
     }
     //-----------------------------------------------------------------
     NMVector4 operator + (const NMVector4 &lhs, const NMVector4 &rhs)

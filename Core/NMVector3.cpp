@@ -219,10 +219,7 @@ namespace NightMoon
     //-----------------------------------------------------------------
     NMVector3& NMVector3::operator= (const NMVector3 &rhs)
     {
-        this->x = rhs.x;
-        this->y = rhs.y;
-        this->z = rhs.z;
-
+        std::memcpy(this->data, rhs.data, sizeof(Float)* 3);
         return (*this);
     }
     //-----------------------------------------------------------------
@@ -235,12 +232,12 @@ namespace NightMoon
         return (*this);
     }
     //-----------------------------------------------------------------
-    Bool NMVector3::operator == (const NMVector3 &rhs)
+    Bool NMVector3::operator == (const NMVector3 &rhs) const
     {
         return (this->x == rhs.x && this->y == rhs.y && this->z == rhs.z);
     }
     //-----------------------------------------------------------------
-    Bool NMVector3::operator != (const NMVector3 &rhs)
+    Bool NMVector3::operator != (const NMVector3 &rhs) const
     {
         return (this->x != rhs.x || this->y != rhs.y || this->z != rhs.z);
     }
