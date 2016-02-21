@@ -194,8 +194,8 @@ namespace NightMoon
         Bool operator != (const NMMatrix4x4 &m);
         NMMatrix4x4& operator = (const NMMatrix4x4 &m);
 
-        Float& operator () (const size_t &l, const size_t &c);
-        Float operator () (const size_t &l, const size_t &c) const;
+        Float& operator () (const size_t &column, const size_t &row);
+        Float operator () (const size_t &column, const size_t &row) const;
 
         friend NMMatrix4x4 operator + (const NMMatrix4x4 &lhs, const NMMatrix4x4 &rhs);
         friend NMMatrix4x4 operator - (const NMMatrix4x4 &lhs, const NMMatrix4x4 &rhs);

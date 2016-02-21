@@ -190,8 +190,8 @@ namespace NightMoon
 
         NMVector2& operator= (const NMVector2 &rhs);
         NMVector2& operator= (const Float &rhs);
-        Bool operator == (const NMVector2 &rhs);
-        Bool operator != (const NMVector2 &rhs);
+        Bool operator == (const NMVector2 &rhs) const;
+        Bool operator != (const NMVector2 &rhs) const;
 
         NMVector2 operator + (void) const;
         NMVector2 operator - (void) const;

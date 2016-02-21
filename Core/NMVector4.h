@@ -190,8 +190,8 @@ namespace NightMoon
         Float& operator[] (const size_t &index);
         NMVector4& operator= (const NMVector4 &rhs);
         NMVector4& operator= (const Float &rhs);
-        Bool operator == (const NMVector4 &rhs);
-        Bool operator != (const NMVector4 &rhs);
+        Bool operator == (const NMVector4 &rhs) const;
+        Bool operator != (const NMVector4 &rhs) const;
 
         friend NMVector4 operator + (const NMVector4 &lhs, const NMVector4 &rhs);
         friend NMVector4 operator - (const NMVector4 &lhs, const NMVector4 &rhs);

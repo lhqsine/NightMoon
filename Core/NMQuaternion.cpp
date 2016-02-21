@@ -174,65 +174,54 @@ Library.
 #include <algorithm>
 #include "NMQuaternion.h"
 #include "NMMatrix4x4.h"
+#include "NMMathLib.h"
 
 namespace NightMoon
 {
-    //-----------------------------------------------------------------
     const NMQuaternion NMQuaternion::zero = NMQuaternion(0.0f, 0.0f, 0.0f, 0.0f);
-    //-----------------------------------------------------------------
     const NMQuaternion NMQuaternion::identity = NMQuaternion(0.0f, 0.0f, 0.0f, 1.0f);
-    //-----------------------------------------------------------------
+
     NMQuaternion::NMQuaternion(void)
         :x(0), y(0), z(0), w(1.0f)
     {
     }
-    //-----------------------------------------------------------------
+
     NMQuaternion::NMQuaternion(const Float &fx, const Float &fy, const Float &fz, const Float &fw)
         : x(fx), y(fy), z(fz), w(fw)
     {
     }
-    //-----------------------------------------------------------------
+
     NMQuaternion::NMQuaternion(const NMQuaternion& src)
         : x(src.x), y(src.y), z(src.z), w(src.w)
     {
     }
-    //-----------------------------------------------------------------
+
     NMQuaternion& NMQuaternion::operator = (const NMQuaternion &q)
     {
-        this->x = q.x;
-        this->y = q.y;
-        this->z = q.z;
-        this->w = q.w;
-
+        std::memcpy(this->data, q.data, sizeof(Float) * 4);
         return (*this);
     }
-    //-----------------------------------------------------------------
+
     Bool NMQuaternion::operator == (const NMQuaternion &q)
     {
-        return (this->x == q.x &&
-            this->y == q.y &&
-            this->z == q.z &&
-            this->w == q.w);
+        return (this->x == q.x && this->y == q.y && this->z == q.z && this->w == q.w);
     }
-    //-----------------------------------------------------------------
+
     Bool NMQuaternion::operator != (const NMQuaternion &q)
     {
-        return (this->x != q.x ||
-            this->y != q.y ||
-            this->z != q.z ||
-            this->w != q.w);
+        return (this->x != q.x || this->y != q.y || this->z != q.z || this->w != q.w);
     }
-    //-----------------------------------------------------------------
+
     const NMQuaternion NMQuaternion::operator + () const
     {
         return (*this);
     }
-    //-----------------------------------------------------------------
+
     const NMQuaternion NMQuaternion::operator - () const
     {
         return NMQuaternion(-this->x, -this->y, -this->z, -this->w);
     }
-    //-----------------------------------------------------------------
+
     NMVector3 operator * (const NMQuaternion &q, const NMVector3 &v)
     {
         // Nvidia SDK implementation
@@ -247,47 +236,47 @@ namespace NightMoon
 
         return v + uv + uuv;
     }
-    //-----------------------------------------------------------------
+
     NMQuaternion operator + (const NMQuaternion &q, const Float &val)
     {
         return NMQuaternion(q.x + val, q.y + val, q.z + val, q.w + val);
     }
-    //-----------------------------------------------------------------
+
     NMQuaternion operator + (const Float &val, const NMQuaternion &q)
     {
         return NMQuaternion(val + q.x, val + q.y, val + q.z, val + q.w);
     }
-    //-----------------------------------------------------------------
+
     NMQuaternion operator + (const NMQuaternion &lhs, const NMQuaternion &rhs)
     {
         return NMQuaternion(lhs.x + rhs.x, lhs.y + rhs.y, lhs.z + rhs.z, lhs.w + rhs.w);
     }
-    //-----------------------------------------------------------------
+
     NMQuaternion operator - (const NMQuaternion &q, const Float &val)
     {
         return NMQuaternion(q.x - val, q.y - val, q.z - val, q.w - val);
     }
-    //-----------------------------------------------------------------
+
     NMQuaternion operator - (const Float &val, const NMQuaternion &q)
     {
         return NMQuaternion(val - q.x, val - q.y, val - q.z, val - q.w);
     }
-    //-----------------------------------------------------------------
+
     NMQuaternion operator - (const NMQuaternion &lhs, const NMQuaternion &rhs)
     {
         return NMQuaternion(lhs.x - rhs.x, lhs.y - rhs.y, lhs.z - rhs.z, lhs.w - rhs.w);
     }
-    //-----------------------------------------------------------------
+
     NMQuaternion operator * (const NMQuaternion &q, const Float &val)
     {
         return NMQuaternion(q.x *val, q.y * val, q.z * val, q.w * val);
     }
-    //-----------------------------------------------------------------
+
     NMQuaternion operator * (const Float &val, const NMQuaternion &q)
     {
         return NMQuaternion(q.x *val, q.y * val, q.z * val, q.w * val);
     }
-    //-----------------------------------------------------------------
+
     NMQuaternion operator * (const NMQuaternion &lhs, const NMQuaternion &rhs)
     {
         return NMQuaternion(
@@ -296,7 +285,7 @@ namespace NightMoon
             rhs[3] * lhs[2] + rhs[0] * lhs[1] - rhs[1] * lhs[0] + rhs[2] * lhs[3],
             rhs[3] * lhs[3] - rhs[0] * lhs[0] - rhs[1] * lhs[1] - rhs[2] * lhs[2]);
     }
-    //-----------------------------------------------------------------
+
     NMQuaternion& NMQuaternion::operator *= (const NMQuaternion &rhs)
     {
         this->data[0] = rhs[3] * this->data[0] + rhs[0] * this->data[3] + rhs[1] * this->data[2] - rhs[2] * this->data[1];
@@ -306,93 +295,101 @@ namespace NightMoon
 
         return (*this);
     }
-    //-----------------------------------------------------------------
+
     NMQuaternion operator / (const NMQuaternion &q, const Float &val)
     {
         return NMQuaternion(q.x / val, q.y / val, q.z / val, q.w / val);
     }
-    //-----------------------------------------------------------------
+
     NMQuaternion operator / (const Float &val, const NMQuaternion &q)
     {
         return NMQuaternion(val / q.x, val / q.y, val / q.z, val / q.w);
     }
-    //-----------------------------------------------------------------
+
     NMQuaternion operator / (const NMQuaternion &lhs, const NMQuaternion &rhs)
     {
         return lhs * NMQuaternion::Inverse(rhs);
     }
-    //-----------------------------------------------------------------
+
     Float NMQuaternion::operator[] (const size_t &index) const
     {
         NM_ASSERT_MSG(index < 4, "[Assert] Out of range.");
         return data[index];
     }
-    //-----------------------------------------------------------------
+
     Float& NMQuaternion::operator[] (const size_t &index)
     {
         NM_ASSERT_MSG(index < 4, "[Assert] Out of range.");
         return data[index];
     }
-    //-----------------------------------------------------------------
+
     Float NMQuaternion::Angle(const NMQuaternion &a, const NMQuaternion &b)
     {
         Float f = NMQuaternion::Dot(a, b);
-        return acos(std::min(abs(f), 1.0f)) * 2.0f * 57.29578f;
+        return NMMathLib::Acos(NMMathLib::Min(NMMathLib::Abs(f), 1.0f)) * 2.0f * NMMathLib::Rad2Deg;
     }
-    //-----------------------------------------------------------------
+
     NMQuaternion NMQuaternion::AxisAngle(const Float &angle, const Float &x, const Float &y, const Float &z)
     {
-        NMQuaternion q = NMQuaternion::identity;
-
-        // @TODO eranzhao
-        NM_ASSERT_MSG(false, "Not Implement yet.");
-        return q;
+        NMVector3 axis(x, y, z);
+        return NMQuaternion::AxisAngle(angle, axis);
     }
-    //-----------------------------------------------------------------
+
     NMQuaternion NMQuaternion::AxisAngle(const Float &angle, const NMVector3 &axis)
     {
-        return NMQuaternion::AxisAngle(angle, axis.x, axis.y, axis.z);
+        if (axis == NMVector3::zero || angle <= NMMathLib::Epsilon)
+            return NMQuaternion::identity;
+
+        // should normalize the axis
+        NMVector3 normAxis = NMVector3::Normalize(axis);
+
+        // q = cos(A/2)+sin(A/2)*(x*i+y*j+z*k)
+        Float halfAngle = (0.5f * angle);
+        Float tmpSin = NMMathLib::Sin(halfAngle);
+        Float tmpCos = NMMathLib::Cos(halfAngle);
+        return NMQuaternion( tmpSin * normAxis.x, tmpSin * normAxis.y, tmpSin * normAxis.z, tmpCos);
     }
-    //-----------------------------------------------------------------
+
     Float NMQuaternion::Dot(const NMQuaternion &a, const NMQuaternion &b)
     {
         return a.x * b.x + a.y * b.y + a.z * b.z + a.w * b.w;
     }
-    //-----------------------------------------------------------------
+
     NMQuaternion NMQuaternion::EulerAngle(const Float &x, const Float &y, const Float &z)
     {
         return NMQuaternion(
-            cos(x / 2.0f) * cos(y / 2.0f) * cos(z / 2.0f) + sin(x / 2.0f) * sin(y / 2.0f) * sin(z / 2.0f),
-            sin(x / 2.0f) * cos(y / 2.0f) * cos(z / 2.0f) - cos(x / 2.0f) * sin(y / 2.0f) * sin(z / 2.0f),
-            cos(x / 2.0f) * sin(y / 2.0f) * cos(z / 2.0f) + sin(x / 2.0f) * cos(y / 2.0f) * sin(z / 2.0f),
-            cos(x / 2.0f) * cos(y / 2.0f) * sin(z / 2.0f) - sin(x / 2.0f) * sin(y / 2.0f) * cos(z / 2.0f));
+            NMMathLib::Cos(x * 0.5f) * NMMathLib::Cos(y * 0.5f) * NMMathLib::Cos(z * 0.5f) + NMMathLib::Sin(x * 0.5f) * NMMathLib::Sin(y * 0.5f) * NMMathLib::Sin(z * 0.5f),
+            NMMathLib::Sin(x * 0.5f) * NMMathLib::Cos(y * 0.5f) * NMMathLib::Cos(z * 0.5f) - NMMathLib::Cos(x * 0.5f) * NMMathLib::Sin(y * 0.5f) * NMMathLib::Sin(z * 0.5f),
+            NMMathLib::Cos(x * 0.5f) * NMMathLib::Sin(y * 0.5f) * NMMathLib::Cos(z * 0.5f) + NMMathLib::Sin(x * 0.5f) * NMMathLib::Cos(y * 0.5f) * NMMathLib::Sin(z * 0.5f),
+            NMMathLib::Cos(x * 0.5f) * NMMathLib::Cos(y * 0.5f) * NMMathLib::Sin(z * 0.5f) - NMMathLib::Sin(x * 0.5f) * NMMathLib::Sin(y * 0.5f) * NMMathLib::Cos(z * 0.5f));
     }
-    //-----------------------------------------------------------------
+
     NMQuaternion NMQuaternion::EulerAngle(const NMVector3 &euler)
     {
         return NMQuaternion::EulerAngle(euler.x, euler.y, euler.z);
     }
-    //-----------------------------------------------------------------
+
     NMQuaternion NMQuaternion::FromToRotation(const NMVector3 &from, const NMVector3 &to)
     {
-        NMQuaternion q = NMQuaternion::identity;
+        if (from == to)
+            return NMQuaternion::identity;
 
-        // @TODO eranzhao
-        NM_ASSERT_MSG(false, "Not Implement yet.");
-        return q;
+        NMVector3 up = NMVector3::Cross(from, to);
+        Float angle = NMVector3::AngleBetween(from, to);
+        return NMQuaternion::AxisAngle(angle, up);
     }
-    //-----------------------------------------------------------------
+
     NMQuaternion NMQuaternion::Conjugate(const NMQuaternion &q)
     {
         return NMQuaternion(-q.x, -q.y, -q.z, q.w);
     }
-    //-----------------------------------------------------------------
-    NMQuaternion NMQuaternion::Inverse(const NMQuaternion &rotation)
+
+    NMQuaternion NMQuaternion::Inverse(const NMQuaternion &quat)
     {
         // Multiplicative inverse method: q ^(-1) = q^*/(q.q^*)
-        return NMQuaternion::Conjugate(rotation) / NMQuaternion::SqrLength(rotation);
+        return NMQuaternion::Conjugate(quat) / NMQuaternion::SqrLength(quat);
     }
-    //-----------------------------------------------------------------
+
     NMQuaternion NMQuaternion::SLerp(const NMQuaternion &from, const NMQuaternion &to, const Float &t)
     {
         NMQuaternion q = NMQuaternion::identity;
@@ -401,33 +398,117 @@ namespace NightMoon
         NM_ASSERT_MSG(false, "Not Implement yet.");
         return q;
     }
-    //-----------------------------------------------------------------
+
+// The macro for calculate the quaternion from matrix.    
+#define NM_QUAT_CASE_MACRO(I, J, K) \
+    case I:\
+    { \
+    Float s = NMMathLib::Sqrt(m(I, I) - m(J, J) - m(K, K) + m.m33); \
+    q[I] = 0.5f * s; \
+    s = 0.5f / s; \
+    q.w = (m(K, J) - m(J, K)) * s; \
+    q[J] = (m(J, I) + m(I, J)) * s; \
+    q[K] = (m(K, I) + m(I, K)) * s; \
+    } \
+    break
+
     NMQuaternion NMQuaternion::FromRotationMatrix(const NMMatrix4x4 &m)
     {
+        // From Ken Shoemake's article "Quaternion Calculus and Fast Animation"
         NMQuaternion q = NMQuaternion::identity;
 
-        // @TODO eranzhao
-        NM_ASSERT_MSG(false, "Not Implement yet.");
+        Float trace = m.m00 + m.m11 + m.m22;
+        if (trace > 0)
+        {
+            Float s = NMMathLib::Sqrt(trace + m.m33);
+            q.w = 0.5f * s;
+            s = 0.5f / s;
+            q.x = (m.m21 - m.m12) * s;
+            q.y = (m.m02 - m.m20) * s;
+            q.z = (m.m10 - m.m01) * s;
+        }
+        else
+        {
+            Int32 tmp = 0;
+            tmp = m.m11 > m.m00 ? 1 : tmp;
+            tmp = m.m22 > m(tmp, tmp) ? 2 : tmp;
+
+            switch (tmp)
+            {
+                NM_QUAT_CASE_MACRO(0,1,2);
+                NM_QUAT_CASE_MACRO(1,2,0);
+                NM_QUAT_CASE_MACRO(2,0,1);
+            }
+        }
+
+        if (m.m33 != 1.0f)
+        {
+            Float invW = 1.0f / m.m33;
+            q = q / invW;
+        }
+
         return q;
     }
-    //-----------------------------------------------------------------
+
+#undef NM_QUAT_CASE_MACRO
+
     Float NMQuaternion::Length(const NMQuaternion &q)
     {
         return sqrt(q.x * q.x + q.y * q.y + q.z * q.z + q.w * q.w);
     }
-    //-----------------------------------------------------------------
+
     Float NMQuaternion::SqrLength(const NMQuaternion &q)
     {
         return q.x * q.x + q.y * q.y + q.z * q.z + q.w * q.w;
     }
-    //-----------------------------------------------------------------
+
+    NMQuaternion NMQuaternion::Normalize(const NMQuaternion &q)
+    {
+        return q / NMQuaternion::Length(q);
+    }
+
     NMMatrix4x4 NMQuaternion::ToRotationMatrix(const NMQuaternion &q)
     {
-        NMMatrix4x4 mat = NMMatrix4x4::identity;
+        Float sqrLen = NMQuaternion::SqrLength(q);
 
-        // @TODO eranzhao
-        NM_ASSERT_MSG(false, "Not Implement yet.");
-        return mat;
+        if (sqrLen <= NMMathLib::Epsilon)
+            return NMMatrix4x4::zero;
+
+        NMMatrix4x4 re = NMMatrix4x4::identity;
+
+        // should normalize the quaternion if required.
+        // Already optimized to avoid normalize operation.
+        Float _TwoDivSqrLen = sqrLen != 1 ? 2.0f / sqrLen : 2.0f;
+
+        Float tmpX = q.x * _TwoDivSqrLen;
+        Float tmpY = q.y * _TwoDivSqrLen;
+        Float tmpZ = q.z * _TwoDivSqrLen;
+
+        Float xx = q.x * tmpX;
+        Float xy = q.x * tmpY;
+        Float xz = q.x * tmpZ;
+
+        Float yy = q.y * tmpY;
+        Float yz = q.y * tmpZ;
+        Float zz = q.z * tmpZ;
+
+        Float wx = q.w * tmpX;
+        Float wy = q.w * tmpY;
+        Float wz = q.w * tmpZ;
+
+        re.m00 = 1.0f - yy - zz;
+        re.m01 = xy - wz;
+        re.m02 = xz + wy;
+        
+        re.m10 = xy + wz;
+        re.m11 = 1 - xx - zz;
+        re.m12 = yz - wx;
+
+        re.m20 = xz - wy;
+        re.m21 = yz + wx;
+        re.m22 = 1 - xx - yy;
+
+        return re;
     }
-    //-----------------------------------------------------------------
+
 }  // namespace NightMoon

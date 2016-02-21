@@ -175,7 +175,6 @@ Library.
 namespace NightMoon
 {
     const NMMatrix4x4 NMMatrix4x4::zero = NMMatrix4x4(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
-
     const NMMatrix4x4 NMMatrix4x4::identity = NMMatrix4x4(1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1);
 
     NMMatrix4x4::NMMatrix4x4(void)
@@ -223,37 +222,18 @@ namespace NightMoon
 
     NMMatrix4x4& NMMatrix4x4::operator = (const NMMatrix4x4 &m)
     {
-        this->m00 = m.m00;
-        this->m01 = m.m01;
-        this->m02 = m.m02;
-        this->m03 = m.m03;
-
-        this->m10 = m.m10;
-        this->m11 = m.m11;
-        this->m12 = m.m12;
-        this->m13 = m.m13;
-
-        this->m20 = m.m20;
-        this->m21 = m.m21;
-        this->m22 = m.m22;
-        this->m23 = m.m23;
-
-        this->m30 = m.m30;
-        this->m31 = m.m31;
-        this->m32 = m.m32;
-        this->m33 = m.m33;
-
+        std::memcpy(this->data, m.data, sizeof(Float)* 16);
         return (*this);
     }
 
-    Float& NMMatrix4x4::operator () (const size_t &l, const size_t &c)
+    Float& NMMatrix4x4::operator () (const size_t &column, const size_t &row)
     {
-        return this->data[l * 4 + c];
+        return this->data[column * 4 + row];
     }
 
-    Float NMMatrix4x4::operator () (const size_t &l, const size_t &c) const
+    Float NMMatrix4x4::operator () (const size_t &column, const size_t &row) const
     {
-        return this->data[l * 4 + c];
+        return this->data[column * 4 + row];
     }
 
     NMMatrix4x4 operator + (const NMMatrix4x4 &lhs, const NMMatrix4x4 &rhs)
@@ -415,68 +395,59 @@ namespace NightMoon
 
     Float NMMatrix4x4::Determinant(const NMMatrix4x4 &m)
     {
-        return  m(0, 0) * m(1, 1) * m(2, 2) * m(3, 3) - m(0, 1) * m(1, 2) * m(2, 3) * m(3, 0) +
-            m(0, 2) * m(1, 3) * m(2, 0) * m(3, 1) - m(0, 3) * m(1, 0) * m(2, 1) * m(3, 2) +
-            m(0, 3) * m(1, 2) * m(2, 1) * m(3, 0) - m(0, 0) * m(1, 3) * m(2, 2) * m(3, 1) +
-            m(0, 1) * m(1, 0) * m(2, 3) * m(3, 2) - m(0, 2) * m(1, 1) * m(2, 0) * m(3, 3) +
-
-            m(0, 1) * m(1, 2) * m(2, 0) * m(3, 3) - m(0, 2) * m(1, 0) * m(2, 3) * m(3, 1) +
-            m(0, 0) * m(1, 3) * m(2, 1) * m(3, 2) - m(0, 3) * m(1, 1) * m(2, 2) * m(3, 0) +
-            m(0, 3) * m(1, 0) * m(2, 2) * m(3, 1) - m(0, 1) * m(1, 3) * m(2, 0) * m(3, 2) +
-            m(0, 2) * m(1, 1) * m(2, 3) * m(3, 0) - m(0, 0) * m(1, 2) * m(2, 1) * m(3, 3) +
-
-            m(0, 2) * m(1, 0) * m(2, 1) * m(3, 3) - m(0, 0) * m(1, 1) * m(2, 3) * m(3, 2) +
-            m(0, 1) * m(1, 3) * m(2, 2) * m(3, 0) - m(0, 3) * m(1, 2) * m(2, 0) * m(3, 1) +
-            m(0, 3) * m(1, 1) * m(2, 0) * m(3, 2) - m(0, 2) * m(1, 3) * m(2, 1) * m(3, 0) +
-            m(0, 0) * m(1, 2) * m(2, 3) * m(3, 1) - m(0, 1) * m(1, 0) * m(2, 2) * m(3, 3);
+        return
+            m.m00 * (m.m11 * (m.m22 * m.m33 - m.m32 * m.m23) + m.m21 * (m.m32 * m.m13 - m.m12 * m.m33) + m.m31 * (m.m23 * m.m12 - m.m22 * m.m13)) -
+            m.m10 * (m.m01 * (m.m22 * m.m33 - m.m23 * m.m32) + m.m21 * (m.m32 * m.m03 - m.m02 * m.m33) + m.m31 * (m.m23 * m.m02 - m.m22 * m.m03)) +
+            m.m20 * (m.m01 * (m.m12 * m.m33 - m.m13 * m.m32) + m.m11 * (m.m32 * m.m03 - m.m02 * m.m33) + m.m31 * (m.m13 * m.m02 - m.m12 * m.m03)) -
+            m.m30 * (m.m01 * (m.m12 * m.m23 - m.m13 * m.m22) + m.m11 * (m.m22 * m.m03 - m.m02 * m.m23) + m.m21 * (m.m13 * m.m02 - m.m12 * m.m03));
     }
 
     NMMatrix4x4 NMMatrix4x4::Inverse(const NMMatrix4x4 &m)
     {
-        const Float _2132_2231 = m(1, 0) * m(2, 1) - m(1, 1) * m(2, 0);
-        const Float _2133_2331 = m(1, 0) * m(2, 2) - m(1, 2) * m(2, 0);
-        const Float _2134_2431 = m(1, 0) * m(2, 3) - m(1, 3) * m(2, 0);
-        const Float _2142_2241 = m(1, 0) * m(3, 1) - m(1, 1) * m(3, 0);
-        const Float _2143_2341 = m(1, 0) * m(3, 2) - m(1, 2) * m(3, 0);
-        const Float _2144_2441 = m(1, 0) * m(3, 3) - m(1, 3) * m(3, 0);
-        const Float _2233_2332 = m(1, 1) * m(2, 2) - m(1, 2) * m(2, 1);
-        const Float _2234_2432 = m(1, 1) * m(2, 3) - m(1, 3) * m(2, 1);
-        const Float _2243_2342 = m(1, 1) * m(3, 2) - m(1, 2) * m(3, 1);
-        const Float _2244_2442 = m(1, 1) * m(3, 3) - m(1, 3) * m(3, 1);
-        const Float _2334_2433 = m(1, 2) * m(2, 3) - m(1, 3) * m(2, 2);
-        const Float _2344_2443 = m(1, 2) * m(3, 3) - m(1, 3) * m(3, 2);
-        const Float _3142_3241 = m(2, 0) * m(3, 1) - m(2, 1) * m(3, 0);
-        const Float _3143_3341 = m(2, 0) * m(3, 2) - m(2, 2) * m(3, 0);
-        const Float _3144_3441 = m(2, 0) * m(3, 3) - m(2, 3) * m(3, 0);
-        const Float _3243_3342 = m(2, 1) * m(3, 2) - m(2, 2) * m(3, 1);
-        const Float _3244_3442 = m(2, 1) * m(3, 3) - m(2, 3) * m(3, 1);
-        const Float _3344_3443 = m(2, 2) * m(3, 3) - m(2, 3) * m(3, 2);
-
         const Float det = (Determinant(m));
         if (det != 0)
         {
-            Float inv_det = (1.0f / det);
+            Float invDet = (1.0f / det);
+
+            const Float _1021_1120 = m.m10 * m.m21 - m.m11 * m.m20;
+            const Float _1022_1220 = m.m10 * m.m22 - m.m12 * m.m20;
+            const Float _1023_1320 = m.m10 * m.m23 - m.m13 * m.m20;
+            const Float _1031_1130 = m.m10 * m.m31 - m.m11 * m.m30;
+            const Float _1032_1230 = m.m10 * m.m32 - m.m12 * m.m30;
+            const Float _1033_1330 = m.m10 * m.m33 - m.m13 * m.m30;
+            const Float _1122_1221 = m.m11 * m.m22 - m.m12 * m.m21;
+            const Float _1123_1321 = m.m11 * m.m23 - m.m13 * m.m21;
+            const Float _1132_1231 = m.m11 * m.m32 - m.m12 * m.m31;
+            const Float _1133_1331 = m.m11 * m.m33 - m.m13 * m.m31;
+            const Float _1223_1322 = m.m12 * m.m23 - m.m13 * m.m22;
+            const Float _1233_1332 = m.m12 * m.m33 - m.m13 * m.m32;
+            const Float _2031_2130 = m.m20 * m.m31 - m.m21 * m.m30;
+            const Float _2032_2230 = m.m20 * m.m32 - m.m22 * m.m30;
+            const Float _2033_2330 = m.m20 * m.m33 - m.m23 * m.m30;
+            const Float _2132_2231 = m.m21 * m.m32 - m.m22 * m.m31;
+            const Float _2133_2331 = m.m21 * m.m33 - m.m23 * m.m31;
+            const Float _2233_2332 = m.m22 * m.m33 - m.m23 * m.m32;
 
             return NMMatrix4x4(
-                +inv_det * (m(1, 1) * _3344_3443 - m(1, 2) * _3244_3442 + m(1, 3) * _3243_3342),
-                -inv_det * (m(0, 1) * _3344_3443 - m(0, 2) * _3244_3442 + m(0, 3) * _3243_3342),
-                +inv_det * (m(0, 1) * _2344_2443 - m(0, 2) * _2244_2442 + m(0, 3) * _2243_2342),
-                -inv_det * (m(0, 1) * _2334_2433 - m(0, 2) * _2234_2432 + m(0, 3) * _2233_2332),
+                +invDet * (m.m11 * _2233_2332 - m.m12 * _2133_2331 + m.m13 * _2132_2231),
+                -invDet * (m.m01 * _2233_2332 - m.m02 * _2133_2331 + m.m03 * _2132_2231),
+                +invDet * (m.m01 * _1233_1332 - m.m02 * _1133_1331 + m.m03 * _1132_1231),
+                -invDet * (m.m01 * _1223_1322 - m.m02 * _1123_1321 + m.m03 * _1122_1221),
 
-                -inv_det * (m(1, 0) * _3344_3443 - m(1, 2) * _3144_3441 + m(1, 3) * _3143_3341),
-                +inv_det * (m(0, 0) * _3344_3443 - m(0, 2) * _3144_3441 + m(0, 3) * _3143_3341),
-                -inv_det * (m(0, 0) * _2344_2443 - m(0, 2) * _2144_2441 + m(0, 3) * _2143_2341),
-                +inv_det * (m(0, 0) * _2334_2433 - m(0, 2) * _2134_2431 + m(0, 3) * _2133_2331),
+                -invDet * (m.m10 * _2233_2332 - m.m12 * _2033_2330 + m.m13 * _2032_2230),
+                +invDet * (m.m00 * _2233_2332 - m.m02 * _2033_2330 + m.m03 * _2032_2230),
+                -invDet * (m.m00 * _1233_1332 - m.m02 * _1033_1330 + m.m03 * _1032_1230),
+                +invDet * (m.m00 * _1223_1322 - m.m02 * _1023_1320 + m.m03 * _1022_1220),
 
-                +inv_det * (m(1, 0) * _3244_3442 - m(1, 1) * _3144_3441 + m(1, 3) * _3142_3241),
-                -inv_det * (m(0, 0) * _3244_3442 - m(0, 1) * _3144_3441 + m(0, 3) * _3142_3241),
-                +inv_det * (m(0, 0) * _2244_2442 - m(0, 1) * _2144_2441 + m(0, 3) * _2142_2241),
-                -inv_det * (m(0, 0) * _2234_2432 - m(0, 1) * _2134_2431 + m(0, 3) * _2132_2231),
+                +invDet * (m.m10 * _2133_2331 - m.m11 * _2033_2330 + m.m13 * _2031_2130),
+                -invDet * (m.m00 * _2133_2331 - m.m01 * _2033_2330 + m.m03 * _2031_2130),
+                +invDet * (m.m00 * _1133_1331 - m.m01 * _1033_1330 + m.m03 * _1031_1130),
+                -invDet * (m.m00 * _1123_1321 - m.m01 * _1023_1320 + m.m03 * _1021_1120),
 
-                -inv_det * (m(1, 0) * _3243_3342 - m(1, 1) * _3143_3341 + m(1, 2) * _3142_3241),
-                +inv_det * (m(0, 0) * _3243_3342 - m(0, 1) * _3143_3341 + m(0, 2) * _3142_3241),
-                -inv_det * (m(0, 0) * _2243_2342 - m(0, 1) * _2143_2341 + m(0, 2) * _2142_2241),
-                +inv_det * (m(0, 0) * _2233_2332 - m(0, 1) * _2133_2331 + m(0, 2) * _2132_2231));
+                -invDet * (m.m10 * _2132_2231 - m.m11 * _2032_2230 + m.m12 * _2031_2130),
+                +invDet * (m.m00 * _2132_2231 - m.m01 * _2032_2230 + m.m02 * _2031_2130),
+                -invDet * (m.m00 * _1132_1231 - m.m01 * _1032_1230 + m.m02 * _1031_1130),
+                +invDet * (m.m00 * _1122_1221 - m.m01 * _1022_1220 + m.m02 * _1021_1120));
         }
         else
         {

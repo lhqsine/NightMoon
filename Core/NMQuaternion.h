@@ -230,12 +230,13 @@ namespace NightMoon
         static NMQuaternion EulerAngle(const NMVector3 &euler);
         static NMQuaternion FromToRotation(const NMVector3 &from, const NMVector3 &to);
         static NMQuaternion Conjugate(const NMQuaternion &q);
-        static NMQuaternion Inverse(const NMQuaternion &rotation);
+        static NMQuaternion Inverse(const NMQuaternion &quat);
         static NMQuaternion SLerp(const NMQuaternion &from, const NMQuaternion &to, const Float &t);
         static NMQuaternion FromRotationMatrix(const NMMatrix4x4 &m);
         static Float Length(const NMQuaternion &q);
         static Float SqrLength(const NMQuaternion &q);
         static NMMatrix4x4 ToRotationMatrix(const NMQuaternion &q);
+        static NMQuaternion Normalize(const NMQuaternion &q);
 
         static const NMQuaternion zero;
         static const NMQuaternion identity;

@@ -175,50 +175,49 @@ Library.
 
 namespace NightMoon
 {
-    //-----------------------------------------------------------------
+    
     const NMVector2 NMVector2::zero = NMVector2(0, 0);
     const NMVector2 NMVector2::one = NMVector2(1.0f, 1.0f);
-    //-----------------------------------------------------------------
+    
     NMVector2::NMVector2(void)
         :x(0), y(0)
     {
     }
-    //-----------------------------------------------------------------
+    
     NMVector2::NMVector2(const Float &fx, const Float &fy)
         : x(fx), y(fy)
     {
     }
-    //-----------------------------------------------------------------
+    
     NMVector2::NMVector2(const Float &val)
         : x(val), y(val)
     {
     }
-    //-----------------------------------------------------------------
+    
     NMVector2::NMVector2(const NMVector2 &src)
         : x(src.x), y(src.y)
     {
     }
-    //-----------------------------------------------------------------
+    
     Float NMVector2::operator[] (const size_t &index) const
     {
         NM_ASSERT_MSG(index < 2, "[Assert] Out of range.");
         return this->data[index];
     }
-    //-----------------------------------------------------------------
+    
     Float& NMVector2::operator[] (const size_t &index)
     {
         NM_ASSERT_MSG(index < 2, "[Assert] Out of range.");
         return this->data[index];
     }
-    //-----------------------------------------------------------------
+    
     NMVector2& NMVector2::operator= (const NMVector2 &rhs)
     {
-        this->x = rhs.x;
-        this->y = rhs.y;
+        std::memcpy(this->data, rhs.data, sizeof(Float) * 2);
 
         return (*this);
     }
-    //-----------------------------------------------------------------
+    
     NMVector2& NMVector2::operator= (const Float &rhs)
     {
         this->x = rhs;
@@ -226,68 +225,67 @@ namespace NightMoon
 
         return (*this);
     }
-    //-----------------------------------------------------------------
-    Bool NMVector2::operator == (const NMVector2 &rhs)
+    
+    Bool NMVector2::operator == (const NMVector2 &rhs) const
     {
         return (this->x == rhs.x && this->y == rhs.y);
     }
-    //-----------------------------------------------------------------
-    Bool NMVector2::operator != (const NMVector2 &rhs)
+    
+    Bool NMVector2::operator != (const NMVector2 &rhs) const
     {
-        return (this->x != rhs.x ||
-            this->y != rhs.y);
+        return (this->x != rhs.x || this->y != rhs.y);
     }
-    //-----------------------------------------------------------------
+    
     NMVector2 operator + (const NMVector2 &lhs, const NMVector2 &rhs)
     {
         return NMVector2(lhs.x + rhs.x, lhs.y + rhs.y);
     }
-    //-----------------------------------------------------------------
+    
     NMVector2 operator - (const NMVector2 &lhs, const NMVector2 &rhs)
     {
         return NMVector2(lhs.x - rhs.x, lhs.y - rhs.y);
     }
-    //-----------------------------------------------------------------
+    
     NMVector2 operator * (const NMVector2 &lhs, const NMVector2 &rhs)
     {
         return NMVector2(lhs.x * rhs.x, lhs.y * rhs.y);
     }
-    //-----------------------------------------------------------------
+    
     NMVector2 operator * (const NMVector2 &lhs, const Float &rhs)
     {
         return NMVector2(lhs.x * rhs, lhs.y * rhs);
     }
-    //-----------------------------------------------------------------
+    
     NMVector2 operator * (const Float &lhs, const NMVector2 &rhs)
     {
         return NMVector2(lhs * rhs.x, lhs * rhs.y);
     }
-    //-----------------------------------------------------------------
+    
     NMVector2 operator / (const NMVector2 &lhs, const NMVector2 &rhs)
     {
         return NMVector2(lhs.x / rhs.x, lhs.y / rhs.y);
     }
-    //-----------------------------------------------------------------
+    
     NMVector2 operator / (const NMVector2 &lhs, const Float &rhs)
     {
         return NMVector2(lhs.x * rhs, lhs.y * rhs);
     }
-    //-----------------------------------------------------------------
+    
     NMVector2 operator / (const Float &lhs, const NMVector2 &rhs)
     {
         return NMVector2(lhs / rhs.x, lhs / rhs.y);
     }
-    //-----------------------------------------------------------------
+    
     NMVector2 NMVector2::operator + (void) const
     {
         return (*this);
     }
-    //-----------------------------------------------------------------
+    
     NMVector2 NMVector2::operator - (void) const
     {
         return NMVector2(-x, -y);
     }
-    //-----------------------------------------------------------------
+    
     NMVector2 NMVector2::operator += (const NMVector2 &rhs)
     {
         x += rhs.x;
@@ -295,7 +293,7 @@ namespace NightMoon
 
         return (*this);
     }
-    //-----------------------------------------------------------------
+    
     NMVector2 NMVector2::operator -= (const NMVector2 &rhs)
     {
         x -= rhs.x;
@@ -303,7 +301,7 @@ namespace NightMoon
 
         return (*this);
     }
-    //-----------------------------------------------------------------
+    
     NMVector2 NMVector2::operator *= (const NMVector2 &rhs)
     {
         x *= rhs.x;
@@ -311,7 +309,7 @@ namespace NightMoon
 
         return (*this);
     }
-    //-----------------------------------------------------------------
+    
     NMVector2 NMVector2::operator *= (const Float &rhs)
     {
         x *= rhs;
@@ -319,7 +317,7 @@ namespace NightMoon
 
         return (*this);
     }
-    //-----------------------------------------------------------------
+    
     NMVector2 NMVector2::operator /= (const NMVector2 &rhs)
     {
         x /= rhs.x;
@@ -327,7 +325,7 @@ namespace NightMoon
 
         return (*this);
     }
-    //-----------------------------------------------------------------
+    
     NMVector2 NMVector2::operator /= (const Float &rhs)
     {
         x /= rhs;
@@ -335,75 +333,75 @@ namespace NightMoon
 
         return (*this);
     }
-    //-----------------------------------------------------------------
+    
     Bool NMVector2::IsNan(const NMVector2 &v)
     {
         return std::isnan(v.x) || std::isnan(v.y);
     }
-    //-----------------------------------------------------------------
+    
     Float NMVector2::AngleBetween(const NMVector2 &from, const NMVector2 &to)
     {
         return NMMathLib::Acos(NMMathLib::Clamp(NMVector2::Dot(NMVector2::Normalize(from), NMVector2::Normalize(to)), -1.0f, 1.0f)) * NMMathLib::Rad2Deg;
     }
-    //-----------------------------------------------------------------
+    
     Float NMVector2::Distance(const NMVector2 &a, const NMVector2 &b)
     {
         return NMVector2::Length(a - b);
     }
-    //-----------------------------------------------------------------
+    
     Float NMVector2::Dot(const NMVector2 &lhs, const NMVector2 &rhs)
     {
         return lhs.x * rhs.x + lhs.y * rhs.y;
     }
-    //-----------------------------------------------------------------
+    
     NMVector2 NMVector2::Lerp(const NMVector2 &from, const NMVector2 &to, const Float &t)
     {
         Float tmp = NMMathLib::Clamp(t, 0.0f, 1.0f);
         return NMVector2(from.x + (to.x - from.x) * tmp, from.y + (to.y - from.y) * tmp);
     }
-    //-----------------------------------------------------------------
+    
     NMVector2 NMVector2::Max(const NMVector2 &lhs, const NMVector2 &rhs)
     {
         return NMVector2(NMMathLib::Max(lhs.x, rhs.x), NMMathLib::Max(lhs.y, rhs.y));
     }
-    //-----------------------------------------------------------------
+    
     NMVector2 NMVector2::Min(const NMVector2 &lhs, const NMVector2 &rhs)
     {
         return NMVector2(NMMathLib::Min(lhs.x, rhs.x), NMMathLib::Min(lhs.y, rhs.y));
     }
-    //-----------------------------------------------------------------
+    
     NMVector2 NMVector2::MoveTowards(const NMVector2 &curr, const NMVector2 &target, const Float &max_dist_delta)
     {
         NMVector2 a = target - curr;
         Float magnitude = NMVector2::Length(a);
         return (magnitude <= max_dist_delta || magnitude == 0.0f) ? target : curr + a / magnitude * max_dist_delta;
     }
-    //-----------------------------------------------------------------
+    
     NMVector2 NMVector2::Normalize(const NMVector2 &src)
     {
         Float len = NMVector2::Length(src);
         //return len > 1E-05f ? src / len : NMVector2::zero;
         return len > NMMathLib::Epsilon ? src / len : NMVector2::zero;
     }
-    //-----------------------------------------------------------------
+    
     NMVector2 NMVector2::Scale(const NMVector2 &a, const NMVector2 &b)
     {
         return NMVector2(a.x * b.x, a.y * b.y);
     }
-    //-----------------------------------------------------------------
+    
     Float NMVector2::SqrLength(const NMVector2 &v)
     {
         return v.x * v.x + v.y * v.y;
     }
-    //-----------------------------------------------------------------
+    
     Float NMVector2::Length(const NMVector2 &v)
     {
         return NMMathLib::Sqrt(v.x * v.x + v.y * v.y);
     }
-    //-----------------------------------------------------------------
+    
     NMVector2 NMVector2::ClampLength(const NMVector2 &v, const Float &max_len)
     {
         return (NMVector2::SqrLength(v) > (max_len * max_len)) ? NMVector2::Normalize(v) * max_len : v;
     }
-    //-----------------------------------------------------------------
+    
 }  // namespace NightMoon

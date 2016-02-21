@@ -6,3 +6,5 @@
 /Extern/jemalloc/jemalloc/Release
 /Extern/jemalloc/jemalloc/Debug
 /NightMoon.sdf
+/Extern/boost/include
+/Extern/boost/lib
